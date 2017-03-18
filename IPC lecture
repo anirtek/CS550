@@ -1,0 +1,4 @@
+kill -l command for killing and notifying stuff.
+ctrl+z sends the SIGSTOP signal to the process running. It doesn't killthe process.
+ctrl+c kills the proces.
+SIGCONT is used to continue and is opposite of the SIGSTOP xommand
