@@ -1,0 +1,46 @@
+NAME    :   ANIRUDDHA TEKADE
+BMAIL   :   atekade1@binghamton.edu
+BU-ID   :   B00618834
+=====================================================================================
+
+Report : 
+========
+** Important : The name of the input parameter that should be used for setting input to the 
+   /dev/linepipe must be 'N' and used as follows : 
+                      sudo insmod linepipe.ko N=<integer value>
+** It should produce an error in attempting to provide wrong type input as it accepts only 
+   integer type of data input.
+
+** The name of the device/kernel module that gets created after make is "/dev/linepipe".
+
+===========
+CASE 'A' => 
+===========
+The FIFO is created using the system call mkfifo() in the operating system
+and the same function can be used as a command to create the FIFO in the system.
+Apart from mkfifo(), we also have mknod() function call or mknod command that 
+can create the FIFO in the Kernel space.
+
+===========
+CASE 'B' =>
+===========
+In the given scripts/C-programs of both consumer and producer, there is an issue
+of sychronization. Because when a producer produces the message and puts onto the 
+FIFO we have created, any consumer that is ready to grab this data will read it.
+
+This situation becomes worse when we particulary run multiple producers and multiple 
+consumers at a time and using the same FIFO created in the kernel space. We may find 
+that as soon as the producer a message, consumer reads it and these operations are not 
+uniform; which means the messages read by consumer programs are not complete or whole.
+This reading can be errornoeous and become a serious problem in the machine.
+
+===========
+CASE 'C' =>
+===========
+Therefore to avoid the problem in the CASE 'B', we choose the synchronization mechanism 
+which can be easily developed using 2 semaphores and 1 mutex lock/variable. The 
+/dev/linepipe is a device that acts as the FIFO and is a kernel module which can be
+inserted and removed from the kernel dynamically. This module takes care of all the 
+sychronization process between production by multiple producers and consumption by
+multiple consumers that might happen altogether.
+======================================================================================= 
